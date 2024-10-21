@@ -1,9 +1,7 @@
 import psycopg2
 import pandas as pd
 from flask import Flask, request, jsonify
-from contextlib import closing
 import csv
-import uuid
 
 
 app = Flask(__name__) 
@@ -25,17 +23,21 @@ def add_data_in_table(row):
     """
     cursor.execute( qInsert, (row[1], row[2],row[3], row[3],row[3], row[3], row[3],row[3],row[3],row[3],row[3], row[3],row[4]) )
 
+@app.route("/getData")
+def getData():
+    open_connection()
+    cursor.execute(""" SELECT * FROM movies""")
+    resp =  cursor.fetchall()
+    close_connection()
+    return resp
+
+
 @app.route("/test")
 def test():
     open_connection()
     create_table()
     url = "https://raw.githubusercontent.com/amirtds/kaggle-netflix-tv-shows-and-movies/main/titles.csv"
     new_list = load_data('convertcsv.csv')
-    #data = pd.read_csv(url) # use sep="," for coma separation. 
-    #data.describe()
-    #for row in new_list:
-        #print('===>>>', row)
-
     close_connection()
     return "test"
 
