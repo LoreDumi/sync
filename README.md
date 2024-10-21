@@ -1,1 +1,1 @@
-# sync from a remote Toa local DB
+# sync from a remote To local DB
